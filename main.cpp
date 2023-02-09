@@ -8,8 +8,12 @@ using namespace std;
 
 // Globals
 
-// This is a list of colors
+// This is a list of colors.
 int color_counter = 0;
+
+// Light position counter.
+int left_right_counter = 0;
+int up_down_counter = 0;
 
 // This is the list of points (3D vectors)
 vector<Vector3f> vecv;
@@ -61,20 +65,28 @@ void specialFunc(int key, int x, int y)
     switch (key)
     {
     case GLUT_KEY_UP:
-        // add code to change light position
-        cout << "Unhandled key press: up arrow." << endl;
+        if (-2 <= up_down_counter and up_down_counter < 0)
+        {
+            up_down_counter += 1;
+        }
         break;
     case GLUT_KEY_DOWN:
-        // add code to change light position
-        cout << "Unhandled key press: down arrow." << endl;
+        if (-2 < up_down_counter and up_down_counter <= 0)
+        {
+            up_down_counter -= 1;
+        }
         break;
     case GLUT_KEY_LEFT:
-        // add code to change light position
-        cout << "Unhandled key press: left arrow." << endl;
+        if (-2 <= left_right_counter and left_right_counter < 0)
+        {
+            left_right_counter += 1;
+        }
         break;
     case GLUT_KEY_RIGHT:
-        // add code to change light position
-        cout << "Unhandled key press: right arrow." << endl;
+        if (-2 < left_right_counter and left_right_counter <= 0)
+        {
+            left_right_counter -= 1;
+        }
         break;
     }
 
@@ -125,6 +137,9 @@ void drawScene()
     GLfloat Lt0diff[] = {1.0, 1.0, 1.0, 1.0};
     // Light position
     GLfloat Lt0pos[] = {1.0f, 1.0f, 5.0f, 1.0f};
+
+    Lt0pos[0] = Lt0pos[0] + 0.5 * up_down_counter;
+    Lt0pos[1] = Lt0pos[1] + 0.5 * left_right_counter;
 
     glLightfv(GL_LIGHT0, GL_DIFFUSE, Lt0diff);
     glLightfv(GL_LIGHT0, GL_POSITION, Lt0pos);
