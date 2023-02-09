@@ -1,4 +1,4 @@
-#include <GL/glut.h>
+#include <GLUT/glut.h>
 #include <cmath>
 #include <iostream>
 #include <sstream>
@@ -8,6 +8,9 @@ using namespace std;
 
 // Globals
 
+// This is a list of colors
+int color_counter = 0;
+
 // This is the list of points (3D vectors)
 vector<Vector3f> vecv;
 
@@ -15,7 +18,7 @@ vector<Vector3f> vecv;
 vector<Vector3f> vecn;
 
 // This is the list of faces (indices into vecv and vecn)
-vector<vector<unsigned>> vecf;
+vector<vector<unsigned> > vecf;
 
 // You will need more global variables to implement color and position changes
 
@@ -40,11 +43,11 @@ void keyboardFunc(unsigned char key, int x, int y)
         exit(0);
         break;
     case 'c':
-        // add code to change color here
-        cout << "Unhandled key press " << key << "." << endl;
+        color_counter = (color_counter + 1) % 4;
         break;
     default:
         cout << "Unhandled key press " << key << "." << endl;
+        break;
     }
 
     // this will refresh the screen so that the user sees the color change
@@ -80,7 +83,7 @@ void specialFunc(int key, int x, int y)
 }
 
 // This function is responsible for displaying the object.
-void drawScene(void)
+void drawScene()
 {
     int i;
 
@@ -106,7 +109,7 @@ void drawScene(void)
                                 {0.3, 0.8, 0.9, 1.0}};
 
     // Here we use the first color entry as the diffuse color
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, diffColors[0]);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, diffColors[color_counter]);
 
     // Define specular color and shininess
     GLfloat specColor[] = {1.0, 1.0, 1.0, 1.0};
